@@ -30,3 +30,6 @@ Route::middleware([
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::resource('/videos', App\Http\Controllers\VideoController::class)
+->except(['show'])
+->middleware('auth');
