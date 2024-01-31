@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/home');
 });
 
 Route::middleware([
@@ -33,3 +33,23 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::resource('/videos', 'App\Http\Controllers\VideoController')
 ->except(['show'])
 ->middleware('auth');
+
+Route::get('delete-video/{video_id}', [
+    'as' => 'delete-video',
+    'middleware'=>'auth',
+    'uses'=>'App\Http\Controllers\VideoController@delete_video'
+]);
+
+Route::get('/miniatura/{filename}', array(
+    'as' => 'imageVideo',
+    'uses' => 'App\Http\Controllers\VideoController@getImage'
+));
+
+Route::get('/videos/details/{video_id}', [App\Http\Controllers\VideoController::class, 'show'])->name('videos.show');
+
+Route::get('/video-file/{filename}', array(
+    'as' => 'fileVideo',
+    'uses' => 'App\Http\Controllers\VideoController@getVideo'
+));
+
+Route::resource('/comentarios', App\Http\Controllers\ComentarioController::class);
